@@ -31,7 +31,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="flex "> {/* Sign in button on the right */}
-          <button className="bg-indigo-700 md:hover:bg-indigo-500 text-white font-medium py-1 px-3 md:py-2 md:px-4 rounded-md">
+          <button className="bg-red-500 md:hover:bg-red-600 text-white font-medium py-1 px-3 md:py-2 md:px-4 rounded-md">
             <NavLink to="/signin">Sign In</NavLink>
           </button>
         </div>
