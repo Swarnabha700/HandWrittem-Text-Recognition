@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Home = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -37,8 +38,8 @@ const Home = () => {
 
       <div className="border w-full md:w-[70vh] p-4 py-10 rounded-md mb-4 flex flex-col items-center space-y-4">
         <img src="/tool-box-image.svg" alt="" className="w-auto h-auto max-w-full max-h-full" />
-        <h2 className='text-lg text-center'>Drop, Upload or Paste image</h2>
-      <p className='text-gray-400 text-base text-center'>Supported formats: JPG, PNG, GIF, JFIF (JPEG), HEIC, PDF</p>
+        <h2 className='text-lg text-center'>Drop or Upload image</h2>
+      <p className='text-gray-400 text-base text-center'>Supported formats: JPG, PNG, JFIF (JPEG), HEIC</p>
         <input
           type="file"
           accept="image/*"

@@ -3,7 +3,7 @@ import React from 'react';
 const Pricing = () => {
   return (
     <div className=" flex flex-col items-center bg-gray-100 py-10 px-4">
-      <h1 className="text-4xl font-bold mb-6 text-gray-800">Our Pricing Plans</h1>
+      <h1 className="text-4xl font-bold mb-6 text-gray-800">Our Membership Plans</h1>
       <p className="text-lg text-gray-600 mb-8 text-center">
         Choose the plan that best suits your needs.
       </p>
