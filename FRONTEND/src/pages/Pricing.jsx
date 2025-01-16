@@ -11,7 +11,7 @@ const Pricing = () => {
         {/* Monthly Plan */}
         <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">Monthly</h2>
-          <p className="text-4xl font-bold text-blue-600 mb-4">$10</p>
+          <p className="text-4xl font-bold text-blue-600 mb-4">₹849</p>
           <p className="text-gray-600 mb-6">Billed every month</p>
           <ul className="text-gray-600 space-y-2 mb-6 text-center">
             <li>✓ Unlimited uploads</li>
@@ -26,7 +26,7 @@ const Pricing = () => {
         {/* 3 Months Plan */}
         <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">3 Months</h2>
-          <p className="text-4xl font-bold text-blue-600 mb-4">$25</p>
+          <p className="text-4xl font-bold text-blue-600 mb-4">₹2099</p>
           <p className="text-gray-600 mb-6">Billed every 3 months</p>
           <ul className="text-gray-600 space-y-2 mb-6 text-center">
             <li>✓ Unlimited uploads</li>
@@ -41,7 +41,7 @@ const Pricing = () => {
         {/* 6 Months Plan */}
         <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">6 Months</h2>
-          <p className="text-4xl font-bold text-blue-600 mb-4">$45</p>
+          <p className="text-4xl font-bold text-blue-600 mb-4">₹3599</p>
           <p className="text-gray-600 mb-6">Billed every 6 months</p>
           <ul className="text-gray-600 space-y-2 mb-6 text-center">
             <li>✓ Unlimited uploads</li>
@@ -56,7 +56,7 @@ const Pricing = () => {
         {/* Yearly Plan */}
         <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center border-2 border-blue-500">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">Yearly</h2>
-          <p className="text-4xl font-bold text-blue-600 mb-4">$80</p>
+          <p className="text-4xl font-bold text-blue-600 mb-4">₹6899</p>
           <p className="text-gray-600 mb-6">Billed annually</p>
           <ul className="text-gray-600 space-y-2 mb-6 text-center">
             <li>✓ Unlimited uploads</li>
