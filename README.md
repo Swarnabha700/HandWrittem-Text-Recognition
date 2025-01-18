@@ -59,4 +59,3 @@ npm run dev
 - For any issues with virtual environment setup or dependencies, refer to the documentation or check the terminal output for troubleshooting.
 
 ---
-

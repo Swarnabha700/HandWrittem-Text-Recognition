@@ -1,0 +1,7 @@
+.idea
+__pycache__
+doc/notes.txt
+word_detector.egg-info
+venv/
+test_images/
+test_imgs/
