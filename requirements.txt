@@ -1,0 +1,9 @@
+matplotlib
+numpy
+opencv-python
+path
+# sklearn # The 'sklearn' PyPI package is deprecated, use 'scikit-learn'  rather than 'sklearn' for pip commands.
+scikit-learn
+pytest
+tensorflow==2.3.0
+flask
