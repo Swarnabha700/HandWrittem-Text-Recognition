@@ -22,6 +22,7 @@ import argparse
 from os import listdir
 from os.path import isfile, join
 import shutil #delete folder
+import uuid # unique file name
 
 
 app = Flask(__name__)
@@ -61,7 +62,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--kernel_size', type=int, default=25)
 parser.add_argument('--sigma', type=float, default=11)
@@ -75,12 +75,9 @@ tf.random.set_seed(42)
 
 base_path = "./"
 
-
-
 def allowed_file(filename):
     """Check if the file extension is allowed."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 def image_upload(file):
     global image_file_name
@@ -93,15 +90,13 @@ def image_upload(file):
     if not allowed_file(file.filename):
         return jsonify({'error': 'File type not allowed'}), 400
 
-    # Save the file
-    filename = file.filename
+    extension = file.filename.rsplit('.', 1)[1].lower() # instead set some alphanumeric name.png
+    filename = f"{uuid.uuid4().hex}.{extension}"
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
     image_file_name = filename
 
-
-
-def reset_values_of_global_variables():
+def cleanup():
   global image_file_name, t_images, base_path, base_image_path, AUTOTUNE, char_to_num, num_to_chars, inf_images, model, custom_objects, reconstructed_model, prediction_model, pred_test_text, flat_list, batch_size, padding_token, image_width, image_height, max_len
   batch_size = 64
   padding_token = 99
@@ -123,15 +118,14 @@ def reset_values_of_global_variables():
   pred_test_text = []
   flat_list = []
 
-def delete_folders():
-    folder_path = "./test_images"
+  folder_path = "./test_images" 
 
-    if os.path.exists(folder_path):
-        # Remove the folder and all its contents
-        shutil.rmtree(folder_path)
-        print(f"Folder '{folder_path}' and its contents have been deleted.")
-    else:
-        print(f"Folder '{folder_path}' does not exist.")
+  if os.path.exists(folder_path):
+      # Remove the folder and all its contents
+      shutil.rmtree(folder_path)
+      print(f"Folder '{folder_path}' and its contents have been deleted.")
+  else:
+      print(f"Folder '{folder_path}' does not exist.")
 
 def save_image_names_to_text_files():
     fn_img = f"{os.getcwd()}/data/page/{image_file_name}"
@@ -332,40 +326,11 @@ def decode_batch_predictions(pred):
 
     return output_text
 
-for batch in inf_images[:3]:
-    batch_images = batch["image"]
-    # batch_images= tf.expand_dims(batch_images, axis=0)
-    print(batch_images.shape)
-    # print(batch_images.shape)
-
-    _, ax = plt.subplots(4, 4, figsize=(15, 8))
-
-    preds = prediction_model.predict(batch_images)
-    pred_texts = decode_batch_predictions(preds)
-    pred_test_text.append(pred_texts)
-
-    for i in range(16):
-      img = batch_images[i]
-      img = tf.image.flip_left_right(img)
-      img = tf.transpose(img, perm=[1, 0, 2])
-      img = (img * 255.0).numpy().clip(0, 255).astype(np.uint8)
-      img = img[:, :, 0]
-
-      title = f"Prediction: {pred_texts[i]}"
-      ax[i // 4, i % 4].imshow(img, cmap = "gray")
-      ax[i // 4, i % 4].set_title(title)
-      ax[i // 4, i % 4].axis("off")
-
-
-
 @app.route('/api/data', methods=['POST'])
 def post_data():
     global image_file_name, t_images, base_path, base_image_path, AUTOTUNE, char_to_num, num_to_chars, inf_images, model, custom_objects, reconstructed_model, prediction_model, pred_test_text, flat_list, sentence
-
-
-  # *---------TODO----------*
-    # get the name 
-    # image_file_name = name
+    
+    cleanup()    
 
     # Check if a file is included in the request
     if 'image' not in request.files:
@@ -433,10 +398,6 @@ def post_data():
 
     # Now return the sentence formed from pred_test_text
     sentence = ' '.join(flat_list)
-
-    reset_values_of_global_variables()
-    
-    delete_folders()
 
     response = {
         "message": sentence
