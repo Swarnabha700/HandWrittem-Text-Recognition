@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate()
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
@@ -24,6 +26,8 @@ const Home = () => {
 
       if (response.ok) {
         console.log('Image uploaded successfully!');
+        navigate("/response");
+
       } else {
         console.error('Image upload failed.');
       }

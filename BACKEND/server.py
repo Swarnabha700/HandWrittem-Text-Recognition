@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from tensorflow.keras.layers.experimental.preprocessing import StringLookup
 from tensorflow import keras
@@ -24,7 +25,7 @@ import shutil #delete folder
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 batch_size = 64
 padding_token = 99
@@ -45,6 +46,7 @@ reconstructed_model = ""
 prediction_model = ""
 pred_test_text = []
 flat_list = []
+sentence = ""
 
 image_file_name = "r06-137.png"
 
@@ -358,7 +360,7 @@ for batch in inf_images[:3]:
 
 @app.route('/api/data', methods=['POST'])
 def post_data():
-    global image_file_name, t_images, base_path, base_image_path, AUTOTUNE, char_to_num, num_to_chars, inf_images, model, custom_objects, reconstructed_model, prediction_model, pred_test_text, flat_list
+    global image_file_name, t_images, base_path, base_image_path, AUTOTUNE, char_to_num, num_to_chars, inf_images, model, custom_objects, reconstructed_model, prediction_model, pred_test_text, flat_list, sentence
 
 
   # *---------TODO----------*
@@ -441,6 +443,17 @@ def post_data():
     }
 
     return jsonify(response), 201
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    global sentence
+    
+
+    # Create a response sentence from the `flat_list`
+
+
+    return jsonify(sentence), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)
