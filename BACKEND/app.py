@@ -25,12 +25,12 @@ import argparse
 
 list_img_names_serial = []
 
-def get_img_files(data_dir: Path) -> List[Path]:
-    """Return all image files contained in a folder."""
-    res = []
-    for ext in ['*.png', '*.jpg', '*.bmp']:
-        res += Path(data_dir).files(ext)
-    return res
+# def get_img_files(data_dir: Path) -> List[Path]:
+#     """Return all image files contained in a folder."""
+#     res = []
+#     for ext in ['*.png', '*.jpg', '*.bmp']:
+#         res += Path(data_dir).files(ext)
+#     return res
 
 
 image_file_name = "r06-137.png"
@@ -48,7 +48,7 @@ def save_image_names_to_text_files():
 
     # for fn_img in get_img_files(parsed.data):
         fn_img = f"{os.getcwd()}/data/page/{image_file_name}"
-        print(f'Processing file {fn_img}')
+        # print(f'Processing file {fn_img}')
 
         # load image and process it
         img = prepare_img(cv2.imread(fn_img), parsed.img_height)
@@ -73,7 +73,7 @@ def save_image_names_to_text_files():
                       det.bbox.y + det.bbox.h, det.bbox.y, det.bbox.y]
                 plt.plot(xs, ys, c=colors(line_idx % num_colors))
                 plt.text(det.bbox.x, det.bbox.y, f'{line_idx}/{word_idx}')
-                print(det.bbox.x, det.bbox.y, det.bbox.w, det.bbox.h)
+                # print(det.bbox.x, det.bbox.y, det.bbox.w, det.bbox.h)
                 crop_img = img[det.bbox.y:det.bbox.y +
                                det.bbox.h, det.bbox.x:det.bbox.x+det.bbox.w]
                 
@@ -83,14 +83,14 @@ def save_image_names_to_text_files():
                 isExist = os.path.exists(path)
                 if isExist == False:
                     os.mkdir(path)
-                    print("Directory Created")
+                    # print("Directory Created")
 
                 cv2.imwrite(f"{path}/line" + str(line_idx) + "word" +
                             str(word_idx) + ".jpg", crop_img)
                 full_img_path = "line" + \
                     str(line_idx) + "word" + str(word_idx)+".jpg"
                 list_img_names_serial.append(full_img_path)
-                print(list_img_names_serial)
+                # print(list_img_names_serial)
                 list_img_names_serial_set = set(list_img_names_serial)
 
                 textfile = open("./examples/img_names_sequence.txt", "w")
@@ -113,7 +113,7 @@ tf.random.set_seed(42)
 base_path = "./"
 ## Testing data input pipeline 
 base_image_path = os.path.join(base_path, "test_images")
-print(base_image_path)
+# print(base_image_path)
 
 t_images = []
 from os import listdir
@@ -124,7 +124,7 @@ for f in listdir(base_image_path):
   t_images_path = os.path.join(base_image_path, f)
   t_images.append(t_images_path)
 
-print(t_images)
+# print(t_images)
 
 # Sorting string list with numbers so that our images can be predicted in correct order of sentence. 
 def atoi(text):
@@ -139,11 +139,11 @@ def natural_keys(text):
     return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 t_images.sort(key=natural_keys)
-print(t_images)
+# print(t_images)
 
 with open("./characters", "rb") as fp:   # Unpickling
     b = pickle.load(fp)
-    print(b)
+    # print(b)
 
 
 # AUTOTUNE = tf.data.AUTOTUNE #AttributeError: module 'tensorflow._api.v2.data' has no attribute 'AUTOTUNE'
@@ -338,7 +338,7 @@ def decode_batch_predictions(pred):
 for batch in inf_images.take(3):
     batch_images = batch["image"]
     # batch_images= tf.expand_dims(batch_images, axis=0)
-    print(batch_images.shape)
+    # print(batch_images.shape)
     # print(batch_images.shape)
 
     _, ax = plt.subplots(4, 4, figsize=(15, 8))
@@ -363,11 +363,7 @@ for batch in inf_images.take(3):
 
 
 flat_list = [item for sublist in pred_test_text for item in sublist]
-print(flat_list)
+# print(flat_list)
 
 sentence = ' '.join(flat_list)
 print(sentence)
-
-
-
-
