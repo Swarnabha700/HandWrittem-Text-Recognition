@@ -48,6 +48,18 @@ flat_list = []
 
 image_file_name = "r06-137.png"
 
+# Directory to save uploaded images
+UPLOAD_FOLDER = './data/page'
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'jfif', 'heic'}
+
+# Configure the upload folder
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ensure the upload directory exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--kernel_size', type=int, default=25)
 parser.add_argument('--sigma', type=float, default=11)
@@ -60,6 +72,31 @@ np.random.seed(42)
 tf.random.set_seed(42)
 
 base_path = "./"
+
+
+
+def allowed_file(filename):
+    """Check if the file extension is allowed."""
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def image_upload(file):
+    global image_file_name
+
+    # Check if a file is selected
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    # Validate file type
+    if not allowed_file(file.filename):
+        return jsonify({'error': 'File type not allowed'}), 400
+
+    # Save the file
+    filename = file.filename
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(filepath)
+    image_file_name = filename
+
 
 
 def reset_values_of_global_variables():
@@ -317,26 +354,29 @@ for batch in inf_images[:3]:
       ax[i // 4, i % 4].set_title(title)
       ax[i // 4, i % 4].axis("off")
 
-    # plt.show()
-
-
-# @app.route('/')
-# def home():
-#     return "Welcome to your Flask app!"
 
 
 @app.route('/api/data', methods=['POST'])
 def post_data():
     global image_file_name, t_images, base_path, base_image_path, AUTOTUNE, char_to_num, num_to_chars, inf_images, model, custom_objects, reconstructed_model, prediction_model, pred_test_text, flat_list
 
-    # get image file from frontend
-    # save inside ./data/page by an alphanumeric name.png
+
+  # *---------TODO----------*
     # get the name 
     # image_file_name = name
 
-    data = request.get_json()
+    # Check if a file is included in the request
+    if 'image' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+        
+    file = request.files['image']
 
-    image_file_name = data['filename']
+    image_upload(file)
+
+
+    # data = request.get_json()
+
+    # image_file_name = data['filename']
 
     save_image_names_to_text_files()
 
