@@ -48,7 +48,7 @@ pred_test_text = []
 flat_list = []
 sentence = ""
 
-image_file_name = "r06-137.png"
+image_file_name = ""
 
 # Directory to save uploaded images
 UPLOAD_FOLDER = './data/page'
